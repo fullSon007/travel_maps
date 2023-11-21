@@ -1,12 +1,12 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
-import {LocationOnOutlinedIcon } from "@material-ui/icons/LocationOnOutlined";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import { Rating } from "@material-ui/lab";
 
 import makeStyles from "./style";
 
-const Map = ({ coordinates, setCoordinates, setBounds }) => {
+const Map = ({ coordinates, setCoordinates, setBounds, places }) => {
     const classes = makeStyles();
     const isMoblie = useMediaQuery('(min-with:600px)');
 
@@ -14,7 +14,7 @@ const Map = ({ coordinates, setCoordinates, setBounds }) => {
     return (
         <div className={classes.mapContainer}>
             <GoogleMapReact 
-                bootstrapURLKeys={{ key: 'AIzaSyDWC6zeN1h1Z4jrdKPSq0EgITMFhS5F_rM' }}
+                bootstrapURLKeys={{ key: 'AIzaSyBTtUQpn-x5lGoBNYDe5O4xkxiinbpf7Pw' }}
                 defaultCenter={coordinates}
                 center={coordinates}
                 defaultZoom={14}
@@ -26,7 +26,32 @@ const Map = ({ coordinates, setCoordinates, setBounds }) => {
                 }}
             
             >
+                {places?.map((place,i) => (
+                    <div
+                        className={classes.markerContainer}
+                        lat={Number(place.latitude)}
+                        lng={Number(place.longtitude)}
+                        key={i}
+                    >
+                        {
+                            isMoblie ? (
+                                <LocationOnOutlinedIcon color="primary" fontSize="large" />
+                            ) : (
+                                <Paper elevation={3} className={classes.paper}>
+                                    <Typography className={classes.typograohy} variant="subtitle2" gutterBottom>
+                                        {place.name}
+                                    </Typography>
+                                    <img 
+                                        className={classes.pointer}
+                                        src={place.photo ? place.photo.images.large.url : ''}
+                                        alt={place.name}
+                                    />
 
+                                </Paper>
+                            ) 
+                        }
+                    </div>
+                ))}
             </GoogleMapReact>
 
         </div>
