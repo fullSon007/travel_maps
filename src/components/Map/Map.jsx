@@ -6,7 +6,7 @@ import { Rating } from "@material-ui/lab";
 
 import makeStyles from "./style";
 
-const Map = ({ coordinates, setCoordinates, setBounds, places }) => {
+const Map = ({ coordinates, setCoordinates, setBounds, places, weatherData }) => {
     const classes = makeStyles();
     const isMoblie = useMediaQuery('(min-with:600px)');
 
@@ -14,7 +14,7 @@ const Map = ({ coordinates, setCoordinates, setBounds, places }) => {
     return (
         <div className={classes.mapContainer}>
             <GoogleMapReact 
-                bootstrapURLKeys={{ key: 'AIzaSyBTtUQpn-x5lGoBNYDe5O4xkxiinbpf7Pw' }}
+                bootstrapURLKeys={{ key: 'AIzaSyD-LCy5efYn3WoboQJlQJctyo6Y4kQLq5o' }}
                 defaultCenter={coordinates}
                 center={coordinates}
                 defaultZoom={14}
@@ -50,6 +50,12 @@ const Map = ({ coordinates, setCoordinates, setBounds, places }) => {
                                 </Paper>
                             ) 
                         }
+                    </div>
+                ))}
+
+                {weatherData?.list?.map((data, i)=>(
+                    <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+                       <img src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`} height="70px" />
                     </div>
                 ))}
             </GoogleMapReact>
